@@ -45,24 +45,25 @@ var saveTasks = function () {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 };
 
-// click the p element
+// task text was clicked
 $(".list-group").on("click", "p", function () {
   var text = $(this)
     .text()
     .trim();
+  // replace p element with a new textrea
   var textInput = $("<textarea>")
     .addClass("form-control")
     .val(text)
   $(this).replaceWith(textInput);
+  // auto focus new element
   textInput.trigger("focus");
 });
 
-//
+// editable field was un-focused
 $(".list-group").on("blur", "textarea", function () {
   // get the textarea's current value/text
   var text = $(this)
-    .val()
-    .trim();
+    .val();
   // get the parent ul's id attribute
   var status = $(this)
     .closest(".list-group")
@@ -72,6 +73,7 @@ $(".list-group").on("blur", "textarea", function () {
   var index = $(this)
     .closest(".list-group-item")
     .index();
+  // upate task in array and re-save to local storage
   tasks[status][index].text = text;
   saveTasks();
   // replace p element
